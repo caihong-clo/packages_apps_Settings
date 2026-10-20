@@ -48,7 +48,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 import com.android.settings.flags.Flags;
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.BlurTarget;
@@ -431,7 +430,7 @@ public class SettingsHomepageActivity extends FragmentActivity implements
                 .initSearchToolbar(this /* activity */, toolbar, SettingsEnums.SETTINGS_HOMEPAGE);
 
         if (mIsEmbeddingActivityEnabled) {
-            final Toolbar toolbarTwoPaneVersion = findViewById(R.id.search_action_bar_two_pane);
+            final View toolbarTwoPaneVersion = findViewById(R.id.search_action_bar_two_pane);
             FeatureFactory.getFeatureFactory().getSearchFeatureProvider()
                     .initSearchToolbar(this /* activity */, toolbarTwoPaneVersion,
                             SettingsEnums.SETTINGS_HOMEPAGE);
