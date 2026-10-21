@@ -284,8 +284,50 @@ public class SettingsActivity extends SettingsBaseActivity
 
         super.onCreate(savedState);
         Log.d(LOG_TAG, "Starting onCreate");
+        clipContentAboveNavigationBar();
         createUiFromIntent(savedState, intent);
     }
+
+    /**
+     * On a large screen the page next to the list on the left runs under the transparent navigation
+     * bar, so its entries scroll behind the gesture pill. Keep them above the bar, as the left list
+     * does, instead of letting the content draw into the bar's padding.
+     */
+    private void clipContentAboveNavigationBar() {
+        if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
+            return;
+        }
+        final android.view.ViewGroup content = findViewById(android.R.id.content);
+        if (content == null) {
+            return;
+        }
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(content,
+                (v, windowInsets) -> {
+                    final androidx.core.graphics.Insets insets = windowInsets.getInsets(
+                            androidx.core.view.WindowInsetsCompat.Type.systemBars()
+                                    | androidx.core.view.WindowInsetsCompat.Type.ime()
+                                    | androidx.core.view.WindowInsetsCompat.Type.displayCutout());
+                    final int statusBarHeight = getWindow().getDecorView().getRootWindowInsets()
+                            .getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars())
+                            .top;
+                    v.setPadding(insets.left, statusBarHeight, insets.right, insets.bottom);
+                    // The toolbar may still draw up into the status bar, but nothing draws down
+                    // into the navigation bar.
+                    content.setClipToPadding(false);
+                    content.setClipChildren(false);
+                    final int bottomInset = insets.bottom;
+                    v.setClipBounds(new android.graphics.Rect(0, 0, v.getWidth(),
+                            Math.max(0, v.getHeight() - bottomInset)));
+                    v.removeOnLayoutChangeListener(mContentClipListener);
+                    mContentClipListener = (view, l, t, r, b, ol, ot, or, ob) ->
+                            view.setClipBounds(new android.graphics.Rect(0, 0, r - l,
+                                    Math.max(0, b - t - bottomInset)));
+                    v.addOnLayoutChangeListener(mContentClipListener);
+                    return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                });
+    }
+
+    private android.view.View.OnLayoutChangeListener mContentClipListener;
 
     protected void createUiFromIntent(@Nullable Bundle savedState, Intent intent) {
         long startTime = System.currentTimeMillis();

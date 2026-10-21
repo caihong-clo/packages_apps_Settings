@@ -41,6 +41,7 @@ import java.util.List;
 public class SystemDashboardFragment extends DashboardFragment {
 
     private static final String KEY_ADVANCED = "advanced_category";
+    private static final String KEY_EXTRAS = "system_extras_category";
 
     private static final String TAG = "SystemDashboardFrag";
 
@@ -75,6 +76,56 @@ public class SystemDashboardFragment extends DashboardFragment {
                     movePreference(preference, advancedCategory);
                 }
             }
+        } else {
+            groupStrayPreferences(screen);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Entries other apps add (Backup, Rules...) arrive after the screen is created.
+        final PreferenceScreen screen = getPreferenceScreen();
+        if (screen != null && findPreference(KEY_ADVANCED) == null) {
+            groupStrayPreferences(screen);
+        }
+    }
+
+    /**
+     * Puts the entries that sit directly on the screen, after its categories, into an untitled
+     * category of their own so they get the same gap and rounded group as the other entries, instead
+     * of running straight into the group above.
+     */
+    private void groupStrayPreferences(PreferenceScreen screen) {
+        PreferenceCategory extras = findPreference(KEY_EXTRAS);
+        int firstOrder = Integer.MAX_VALUE;
+        final List<Preference> strays = new java.util.ArrayList<>();
+        for (int i = 0; i < screen.getPreferenceCount(); i++) {
+            final Preference preference = screen.getPreference(i);
+            if (!(preference instanceof PreferenceCategory)) {
+                strays.add(preference);
+                firstOrder = Math.min(firstOrder, preference.getOrder());
+            }
+        }
+        if (strays.isEmpty()) {
+            return;
+        }
+        if (extras == null) {
+            extras = new PreferenceCategory(screen.getContext());
+            extras.setKey(KEY_EXTRAS);
+            // The layout lives in SettingsLib, which Settings' own R does not list.
+            final int layout = getResources().getIdentifier(
+                    "settingslib_expressive_untitled_preference_category", "layout",
+                    screen.getContext().getPackageName());
+            if (layout != 0) {
+                extras.setLayoutResource(layout);
+            }
+            extras.setOrder(firstOrder);
+            screen.addPreference(extras);
+        }
+        for (Preference stray : strays) {
+            screen.removePreference(stray);
+            extras.addPreference(stray);
         }
     }
 
