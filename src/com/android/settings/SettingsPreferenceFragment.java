@@ -178,7 +178,8 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getActivity() instanceof SettingsActivity activity) {
+        // Fragments that are not backed by a preference list, such as the Compose pages, have none.
+        if (getActivity() instanceof SettingsActivity activity && getListView() != null) {
             activity.configureEdgeToEdgeList(getListView());
         }
     }
