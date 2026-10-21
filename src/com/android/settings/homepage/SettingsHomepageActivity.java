@@ -922,12 +922,25 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         }
     }
 
+    private int mScrollableBottomPadding = -1;
+
     private void updateHomepageAppBar() {
         updateAppBarMinHeight();
         View bottomContainer = findViewById(R.id.bottom_search_bar_container);
         View bottomShadow = findViewById(R.id.bottom_gradient_shadow);
         View titleContainer = findViewById(R.id.homepage_title_container);
         View appBarContainer = findViewById(R.id.app_bar_container);
+        // The scrolling list keeps room at the bottom for the floating search bar, which the two
+        // pane layout replaces with the one at the top; drop that room there.
+        View scrollableContainer = findViewById(R.id.main_content_scrollable_container);
+        if (scrollableContainer != null) {
+            if (mScrollableBottomPadding < 0) {
+                mScrollableBottomPadding = scrollableContainer.getPaddingBottom();
+            }
+            scrollableContainer.setPadding(scrollableContainer.getPaddingLeft(),
+                    scrollableContainer.getPaddingTop(), scrollableContainer.getPaddingRight(),
+                    mIsTwoPane ? 0 : mScrollableBottomPadding);
+        }
         if (mIsTwoPane) {
             findViewById(R.id.homepage_app_bar_regular_phone_view).setVisibility(View.GONE);
             if (bottomContainer != null) {

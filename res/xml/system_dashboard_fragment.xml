@@ -20,150 +20,159 @@
     android:key="system_dashboard_screen"
     android:title="@string/header_category_system">
 
-    <Preference
-        android:key="language_and_region_settings"
-        android:title="@string/language_and_region_settings"
-        android:summary="@string/languages_setting_summary"
-        android:icon="@drawable/ic_settings_languages"
-        android:order="-260"
-        android:fragment="com.android.settings.language.LanguageAndRegionSettings"
-        settings:controller="com.android.settings.language.LanguageAndRegionPreferenceController"/>
+    <!-- The general system entries form their own group after the theme group, with the gap
+         a category gives, instead of running straight into it. -->
+    <PreferenceCategory
+        android:key="system_general_category"
+        android:order="-270"
+        android:layout="@layout/settingslib_expressive_untitled_preference_category">
 
-    <Preference
-        android:key="Keyboard_settings"
-        android:title="@string/keyboard_settings"
-        android:icon="@drawable/ic_settings_keyboards"
-        android:order="-255"
-        android:fragment="com.android.settings.inputmethod.KeyboardSettings"
-        settings:controller="com.android.settings.inputmethod.KeyboardPreferenceController"/>
+        <Preference
+            android:key="language_and_region_settings"
+            android:title="@string/language_and_region_settings"
+            android:summary="@string/languages_setting_summary"
+            android:icon="@drawable/ic_settings_languages"
+            android:order="-260"
+            android:fragment="com.android.settings.language.LanguageAndRegionSettings"
+            settings:controller="com.android.settings.language.LanguageAndRegionPreferenceController"/>
 
-    <Preference
-        android:key="trackpad_settings"
-        android:title="@string/trackpad_mouse_settings"
-        android:summary="@string/trackpad_settings_summary"
-        android:icon="@drawable/ic_settings_touchpad"
-        android:order="-254"
-        android:fragment="com.android.settings.inputmethod.TouchpadAndMouseSettings"
-        settings:keywords="@string/keywords_touchpad"
-        settings:controller="com.android.settings.inputmethod.TouchpadAndMouseSettingsController"/>
+        <Preference
+            android:key="Keyboard_settings"
+            android:title="@string/keyboard_settings"
+            android:icon="@drawable/ic_settings_keyboards"
+            android:order="-255"
+            android:fragment="com.android.settings.inputmethod.KeyboardSettings"
+            settings:controller="com.android.settings.inputmethod.KeyboardPreferenceController"/>
 
-    <Preference
-        android:key="touchpad_settings"
-        android:title="@string/trackpad_settings"
-        android:summary="@string/trackpad_settings_summary"
-        android:icon="@drawable/ic_settings_touchpad"
-        android:order="-253"
-        android:fragment="com.android.settings.inputmethod.TouchpadSettingFragment"
-        settings:keywords="@string/keywords_touchpad"
-        settings:controller="com.android.settings.inputmethod.TouchpadSettingsController"/>
+        <Preference
+            android:key="trackpad_settings"
+            android:title="@string/trackpad_mouse_settings"
+            android:summary="@string/trackpad_settings_summary"
+            android:icon="@drawable/ic_settings_touchpad"
+            android:order="-254"
+            android:fragment="com.android.settings.inputmethod.TouchpadAndMouseSettings"
+            settings:keywords="@string/keywords_touchpad"
+            settings:controller="com.android.settings.inputmethod.TouchpadAndMouseSettingsController"/>
 
-    <Preference
-        android:key="mouse_settings"
-        android:title="@string/mouse_settings"
-        android:summary="@string/mouse_settings_summary"
-        android:icon="@drawable/ic_settings_mouse"
-        android:order="-252"
-        android:fragment="com.android.settings.inputmethod.MouseSettingFragment"
-        settings:controller="com.android.settings.inputmethod.MouseSettingsController"/>
+        <Preference
+            android:key="touchpad_settings"
+            android:title="@string/trackpad_settings"
+            android:summary="@string/trackpad_settings_summary"
+            android:icon="@drawable/ic_settings_touchpad"
+            android:order="-253"
+            android:fragment="com.android.settings.inputmethod.TouchpadSettingFragment"
+            settings:keywords="@string/keywords_touchpad"
+            settings:controller="com.android.settings.inputmethod.TouchpadSettingsController"/>
 
-    <Preference
-            android:icon="@drawable/ic_hand_gesture" 
-            android:key="gesture_system_navigation_input_summary" 
-            android:title="@string/system_navigation_title"
-            android:order="-251" 
-            android:fragment="com.android.settings.gestures.SystemNavigationGestureSettings" 
-            settings:controller="com.android.settings.gestures.SystemNavigationPreferenceController"
-            settings:keywords="@string/keywords_system_navigation" />    
+        <Preference
+            android:key="mouse_settings"
+            android:title="@string/mouse_settings"
+            android:summary="@string/mouse_settings_summary"
+            android:icon="@drawable/ic_settings_mouse"
+            android:order="-252"
+            android:fragment="com.android.settings.inputmethod.MouseSettingFragment"
+            settings:controller="com.android.settings.inputmethod.MouseSettingsController"/>
 
-    <Preference
-        android:key="gesture_settings"
-        android:title="@string/gesture_preference_title"
-        android:icon="@drawable/ic_settings_gestures"
-        android:order="-250"
-        android:fragment="com.android.settings.gestures.GestureSettings"
-        settings:controller="com.android.settings.gestures.GesturesSettingPreferenceController"/>
+        <Preference
+                android:icon="@drawable/ic_hand_gesture" 
+                android:key="gesture_system_navigation_input_summary" 
+                android:title="@string/system_navigation_title"
+                android:order="-251" 
+                android:fragment="com.android.settings.gestures.SystemNavigationGestureSettings" 
+                settings:controller="com.android.settings.gestures.SystemNavigationPreferenceController"
+                settings:keywords="@string/keywords_system_navigation" />    
 
-    <Preference
-        android:key="date_time_settings"
-        android:title="@string/date_and_time"
-        android:icon="@drawable/ic_settings_date_time"
-        android:order="-240"
-        android:fragment="com.android.settings.datetime.DateTimeSettings"
-        settings:controller="com.android.settings.datetime.DateTimePreferenceController"/>
+        <Preference
+            android:key="gesture_settings"
+            android:title="@string/gesture_preference_title"
+            android:icon="@drawable/ic_settings_gestures"
+            android:order="-250"
+            android:fragment="com.android.settings.gestures.GestureSettings"
+            settings:controller="com.android.settings.gestures.GesturesSettingPreferenceController"/>
 
-    <Preference
-        android:key="additional_system_update_settings"
-        android:title="@string/additional_system_update_settings_list_item_title"
-        android:order="-59"
-        settings:controller="com.android.settings.system.AdditionalSystemUpdatePreferenceController">
-        <intent android:action="android.intent.action.MAIN"
-                android:targetPackage="@string/additional_system_update"
-                android:targetClass="@string/additional_system_update_menu"/>
-    </Preference>
+        <Preference
+            android:key="date_time_settings"
+            android:title="@string/date_and_time"
+            android:icon="@drawable/ic_settings_date_time"
+            android:order="-240"
+            android:fragment="com.android.settings.datetime.DateTimeSettings"
+            settings:controller="com.android.settings.datetime.DateTimePreferenceController"/>
 
-    <Preference
-        android:key="system_update_settings"
-        android:title="@string/system_update_settings_list_item_title"
-        android:summary="@string/summary_placeholder"
-        android:icon="@drawable/ic_system_update"
-        android:order="-58"
-        settings:keywords="@string/keywords_system_update_settings"
-        settings:controller="com.android.settings.system.SystemUpdatePreferenceController">
-        <intent android:action="android.settings.SYSTEM_UPDATE_SETTINGS"/>
-    </Preference>
+        <Preference
+            android:key="additional_system_update_settings"
+            android:title="@string/additional_system_update_settings_list_item_title"
+            android:order="-59"
+            settings:controller="com.android.settings.system.AdditionalSystemUpdatePreferenceController">
+            <intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="@string/additional_system_update"
+                    android:targetClass="@string/additional_system_update_menu"/>
+        </Preference>
 
-    <Preference
-        android:key="system_multiuser"
-        android:title="@string/user_settings_title"
-        android:icon="@drawable/ic_settings_multiuser"
-        android:order="-45"
-        android:fragment="com.android.settings.users.UserSettings"
-        settings:controller="com.android.settings.users.MultiUserPreferenceController"/>
+        <Preference
+            android:key="system_update_settings"
+            android:title="@string/system_update_settings_list_item_title"
+            android:summary="@string/summary_placeholder"
+            android:icon="@drawable/ic_system_update"
+            android:order="-58"
+            settings:keywords="@string/keywords_system_update_settings"
+            settings:controller="com.android.settings.system.SystemUpdatePreferenceController">
+            <intent android:action="android.settings.SYSTEM_UPDATE_SETTINGS"/>
+        </Preference>
 
-    <Preference
-        android:key="default_usb_configuration"
-        android:fragment="com.android.settings.connecteddevice.usb.UsbDefaultFragment"
-        android:icon="@drawable/ic_usb_24"
-        android:title="@string/usb_default_config_title"
-        android:summary="@string/usb_default_config_summary"/>    
+        <Preference
+            android:key="system_multiuser"
+            android:title="@string/user_settings_title"
+            android:icon="@drawable/ic_settings_multiuser"
+            android:order="-45"
+            android:fragment="com.android.settings.users.UserSettings"
+            settings:controller="com.android.settings.users.MultiUserPreferenceController"/>
 
-    <com.android.settings.spa.preference.ComposePreference
-        android:key="developer_options"
-        android:order="-40"
-        settings:controller="com.android.settings.system.DeveloperOptionsController"/>
+        <Preference
+            android:key="default_usb_configuration"
+            android:fragment="com.android.settings.connecteddevice.usb.UsbDefaultFragment"
+            android:icon="@drawable/ic_usb_24"
+            android:title="@string/usb_default_config_title"
+            android:summary="@string/usb_default_config_summary"/>    
 
-    <Preference
-        android:key="device_diagnostics"
-        android:title="@string/device_diagnostics_title"
-        android:order="-35"
-        android:icon="@drawable/ic_device_diagnostics"
-        settings:controller="com.android.settings.system.DeviceDiagnosticsPreferenceController"/>
+        <com.android.settings.spa.preference.ComposePreference
+            android:key="developer_options"
+            android:order="-40"
+            settings:controller="com.android.settings.system.DeveloperOptionsController"/>
 
-    <Preference
-        android:key="reset_dashboard"
-        android:title="@string/reset_dashboard_title"
-        android:icon="@drawable/ic_restore"
-        android:order="-30"
-        android:fragment="com.android.settings.system.ResetDashboardFragment"
-        settings:controller="com.android.settings.system.ResetPreferenceController"/>
+        <Preference
+            android:key="device_diagnostics"
+            android:title="@string/device_diagnostics_title"
+            android:order="-35"
+            android:icon="@drawable/ic_device_diagnostics"
+            settings:controller="com.android.settings.system.DeviceDiagnosticsPreferenceController"/>
 
-    <Preference
-        android:key="penguin_laboratory"
-        android:title="@string/penguin_laboratory_title"
-        android:summary="@string/penguin_laboratory_summary"
-        android:icon="@drawable/ic_settings_experimental"
-        android:order="89">
-        <intent
-            android:targetPackage="com.penguin.laboratory"
-            android:targetClass="com.penguin.laboratory.LaboratoryActivity" />
-    </Preference>
+        <Preference
+            android:key="reset_dashboard"
+            android:title="@string/reset_dashboard_title"
+            android:icon="@drawable/ic_restore"
+            android:order="-30"
+            android:fragment="com.android.settings.system.ResetDashboardFragment"
+            settings:controller="com.android.settings.system.ResetPreferenceController"/>
 
-    <Preference
-        android:key="other_settings"
-        android:title="@string/other_settings"
-        android:icon="@drawable/ic_settings_other"
-        android:order="90"
-        android:fragment="com.android.settings.other.OtherFragment"/>    
+        <Preference
+            android:key="penguin_laboratory"
+            android:title="@string/penguin_laboratory_title"
+            android:summary="@string/penguin_laboratory_summary"
+            android:icon="@drawable/ic_settings_experimental"
+            android:order="89">
+            <intent
+                android:targetPackage="com.penguin.laboratory"
+                android:targetClass="com.penguin.laboratory.LaboratoryActivity" />
+        </Preference>
+
+        <Preference
+            android:key="other_settings"
+            android:title="@string/other_settings"
+            android:icon="@drawable/ic_settings_other"
+            android:order="90"
+            android:fragment="com.android.settings.other.OtherFragment"/>    
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="spoofing_category"
