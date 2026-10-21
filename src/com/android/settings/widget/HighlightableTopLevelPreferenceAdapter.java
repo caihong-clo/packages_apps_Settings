@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ import com.android.settings.core.RoundCornerPreferenceAdapter;
 import com.android.settings.flags.Flags;
 import com.android.settings.homepage.SettingsHomepageActivity;
 import com.android.settingslib.widget.SettingsThemeHelper;
+
+import java.util.WeakHashMap;
 
 /**
  * Adapter for highlighting top level preferences
@@ -69,6 +72,11 @@ public class HighlightableTopLevelPreferenceAdapter extends RoundCornerPreferenc
     private boolean mHighlightNeeded;
     private boolean mScrolled;
     private SparseArray<PreferenceViewHolder> mViewHolders;
+    // The rows' own backgrounds (the rounded Penguin cards), keyed by the row view. The round
+    // corner adapter clears them on bind, so they are captured when the row is created and put
+    // back, tinted when highlighted, instead of the square stock backgrounds.
+    private final WeakHashMap<View, Drawable.ConstantState> mRowBackgrounds = new WeakHashMap<>();
+    private final int mHighlightBackgroundColor;
 
     public HighlightableTopLevelPreferenceAdapter(SettingsHomepageActivity homepageActivity,
             PreferenceGroup preferenceGroup, RecyclerView recyclerView, String key,
@@ -82,12 +90,25 @@ public class HighlightableTopLevelPreferenceAdapter extends RoundCornerPreferenc
         Context context = preferenceGroup.getContext();
         mTitleColorNormal = Utils.getColorAttrDefaultColor(context,
                 android.R.attr.textColorPrimary);
-        mTitleColorHighlight = context.getColor(R.color.accent_select_primary_text);
+        mTitleColorHighlight = context.getColor(
+                com.android.internal.R.color.materialColorOnSecondaryContainer);
+        mHighlightBackgroundColor = context.getColor(
+                com.android.internal.R.color.materialColorSecondaryContainer);
         mSummaryColorNormal = Utils.getColorAttrDefaultColor(context,
                 android.R.attr.textColorSecondary);
-        mSummaryColorHighlight = context.getColor(R.color.accent_select_secondary_text);
+        mSummaryColorHighlight = mTitleColorHighlight;
         mIconColorNormal = Utils.getHomepageIconColor(context);
-        mIconColorHighlight = Utils.getHomepageIconColorHighlight(context);
+        mIconColorHighlight = mTitleColorHighlight;
+    }
+
+    @Override
+    public PreferenceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final PreferenceViewHolder holder = super.onCreateViewHolder(parent, viewType);
+        final Drawable background = holder.itemView.getBackground();
+        if (background != null && background.getConstantState() != null) {
+            mRowBackgrounds.put(holder.itemView, background.getConstantState());
+        }
+        return holder;
     }
 
     @Override
@@ -243,7 +264,14 @@ public class HighlightableTopLevelPreferenceAdapter extends RoundCornerPreferenc
 
     private void addHighlightBackground(PreferenceViewHolder holder, int position) {
         final View v = holder.itemView;
-        v.setBackgroundResource(RES_HIGHLIGHTED_BACKGROUND);
+        final Drawable.ConstantState rowBackground = mRowBackgrounds.get(v);
+        if (rowBackground != null) {
+            final Drawable highlighted = rowBackground.newDrawable(v.getResources()).mutate();
+            highlighted.setTint(mHighlightBackgroundColor);
+            v.setBackground(highlighted);
+        } else {
+            v.setBackgroundResource(RES_HIGHLIGHTED_BACKGROUND);
+        }
         ((TextView) v.findViewById(android.R.id.title)).setTextColor(mTitleColorHighlight);
         ((TextView) v.findViewById(android.R.id.summary)).setTextColor(mSummaryColorHighlight);
         final Drawable drawable = ((ImageView) v.findViewById(android.R.id.icon)).getDrawable();
@@ -254,7 +282,12 @@ public class HighlightableTopLevelPreferenceAdapter extends RoundCornerPreferenc
 
     private void removeHighlightBackground(PreferenceViewHolder holder, int position) {
         final View v = holder.itemView;
-        v.setBackgroundResource(RES_NORMAL_BACKGROUND);
+        final Drawable.ConstantState rowBackground = mRowBackgrounds.get(v);
+        if (rowBackground != null) {
+            v.setBackground(rowBackground.newDrawable(v.getResources()));
+        } else {
+            v.setBackgroundResource(RES_NORMAL_BACKGROUND);
+        }
         ((TextView) v.findViewById(android.R.id.title)).setTextColor(mTitleColorNormal);
         ((TextView) v.findViewById(android.R.id.summary)).setTextColor(mSummaryColorNormal);
         final Drawable drawable = ((ImageView) v.findViewById(android.R.id.icon)).getDrawable();
