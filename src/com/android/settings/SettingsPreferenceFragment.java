@@ -175,6 +175,14 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getActivity() instanceof SettingsActivity activity) {
+            activity.configureEdgeToEdgeList(getListView());
+        }
+    }
+
     @NonNull
     @Override
     public RecyclerView onCreateRecyclerView(@NonNull LayoutInflater inflater,

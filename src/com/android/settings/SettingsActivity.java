@@ -284,16 +284,11 @@ public class SettingsActivity extends SettingsBaseActivity
 
         super.onCreate(savedState);
         Log.d(LOG_TAG, "Starting onCreate");
-        clipContentAboveNavigationBar();
         createUiFromIntent(savedState, intent);
     }
 
-    /**
-     * On a large screen the page next to the list on the left runs under the transparent navigation
-     * bar, so its entries scroll behind the gesture pill. Keep them above the bar, as the left list
-     * does, instead of letting the content draw into the bar's padding.
-     */
-    private void clipContentAboveNavigationBar() {
+    /** Keep the scrolling viewport under the gesture bar so its damage covers that area. */
+    void configureEdgeToEdgeList(androidx.recyclerview.widget.RecyclerView list) {
         if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
             return;
         }
@@ -301,33 +296,37 @@ public class SettingsActivity extends SettingsBaseActivity
         if (content == null) {
             return;
         }
+        final int listBottomPadding = list.getPaddingBottom();
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(content,
                 (v, windowInsets) -> {
-                    final androidx.core.graphics.Insets insets = windowInsets.getInsets(
-                            androidx.core.view.WindowInsetsCompat.Type.systemBars()
-                                    | androidx.core.view.WindowInsetsCompat.Type.ime()
-                                    | androidx.core.view.WindowInsetsCompat.Type.displayCutout());
-                    final int statusBarHeight = getWindow().getDecorView().getRootWindowInsets()
-                            .getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars())
-                            .top;
-                    v.setPadding(insets.left, statusBarHeight, insets.right, insets.bottom);
-                    // The toolbar may still draw up into the status bar, but nothing draws down
-                    // into the navigation bar.
+                    final int bars = androidx.core.view.WindowInsetsCompat.Type.systemBars();
+                    final int ime = androidx.core.view.WindowInsetsCompat.Type.ime();
+                    final int cutout = androidx.core.view.WindowInsetsCompat.Type.displayCutout();
+                    final androidx.core.graphics.Insets insets =
+                            windowInsets.getInsets(bars | ime | cutout);
+                    final int navBottom = windowInsets.getInsets(
+                            androidx.core.view.WindowInsetsCompat.Type.navigationBars()).bottom;
+                    final boolean gestureNavigation = navBottom > 0 && windowInsets.getInsets(
+                            androidx.core.view.WindowInsetsCompat.Type.tappableElement()).bottom == 0;
+                    final int top = windowInsets.getInsets(
+                            androidx.core.view.WindowInsetsCompat.Type.statusBars()
+                                    | androidx.core.view.WindowInsetsCompat.Type.captionBar()).top;
+                    // Keep keyboard/cutout protection at the window, but put the gesture inset
+                    // inside the list. Drawing outside a shorter list leaves stale RenderNode
+                    // damage below it; cropping the whole window merely hides that with a strip.
+                    final int bottom = gestureNavigation
+                            ? windowInsets.getInsets(ime | cutout).bottom : insets.bottom;
+                    v.setPadding(insets.left, top, insets.right, bottom);
                     content.setClipToPadding(false);
-                    content.setClipChildren(false);
-                    final int bottomInset = insets.bottom;
-                    v.setClipBounds(new android.graphics.Rect(0, 0, v.getWidth(),
-                            Math.max(0, v.getHeight() - bottomInset)));
-                    v.removeOnLayoutChangeListener(mContentClipListener);
-                    mContentClipListener = (view, l, t, r, b, ol, ot, or, ob) ->
-                            view.setClipBounds(new android.graphics.Rect(0, 0, r - l,
-                                    Math.max(0, b - t - bottomInset)));
-                    v.addOnLayoutChangeListener(mContentClipListener);
+                    content.setClipChildren(true);
+                    list.setPadding(list.getPaddingLeft(), list.getPaddingTop(),
+                            list.getPaddingRight(), listBottomPadding
+                                    + (gestureNavigation && bottom == 0 ? navBottom : 0));
+                    list.setClipToPadding(false);
                     return androidx.core.view.WindowInsetsCompat.CONSUMED;
                 });
+        androidx.core.view.ViewCompat.requestApplyInsets(content);
     }
-
-    private android.view.View.OnLayoutChangeListener mContentClipListener;
 
     protected void createUiFromIntent(@Nullable Bundle savedState, Intent intent) {
         long startTime = System.currentTimeMillis();
