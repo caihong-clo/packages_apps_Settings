@@ -36,6 +36,14 @@
         android:key="lockscreen_interface_category"
         android:title="@string/lockscreen_interface_category_title">
 
+        <com.android.settings.custom.preference.SystemSettingListPreference
+            android:key="lockscreen_display_timeout"
+            android:title="@string/lockscreen_display_timeout_title"
+            android:summary="%s"
+            android:entries="@array/lockscreen_display_timeout_entries"
+            android:entryValues="@array/lockscreen_display_timeout_values"
+            android:defaultValue="10000" />
+
         <com.android.settings.custom.preference.SystemSettingSwitchPreference
             android:key="lockscreen_battery_info"
             android:title="@string/lockscreen_battery_info_title"

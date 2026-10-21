@@ -869,6 +869,15 @@ When the screen is off, the torch can be enabled with one of the following key c
     <string name="search_all_entrypoints_enabled_summary">Use CTS instead of Google Lens for navbar long press</string>
 
     <!-- Lock screen media art -->
+    <string name="lockscreen_display_timeout_title">Lock screen timeout</string>
+    <string name="lockscreen_display_timeout_10s">10 seconds (default)</string>
+    <string name="lockscreen_display_timeout_15s">15 seconds</string>
+    <string name="lockscreen_display_timeout_30s">30 seconds</string>
+    <string name="lockscreen_display_timeout_1m">1 minute</string>
+    <string name="lockscreen_display_timeout_2m">2 minutes</string>
+    <string name="lockscreen_display_timeout_5m">5 minutes</string>
+    <string name="lockscreen_display_timeout_10m">10 minutes</string>
+    <string name="lockscreen_display_timeout_30m">30 minutes</string>
     <string name="ls_media_art_title">Media cover art</string>
     <string name="ls_media_art_summary">Display media cover art when available</string>
     <string name="ambient_media_art_title">Ambient media cover art</string>
