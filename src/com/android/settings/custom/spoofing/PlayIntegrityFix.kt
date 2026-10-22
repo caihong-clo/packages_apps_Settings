@@ -319,6 +319,10 @@ class PlayIntegrityFix : SettingsPreferenceFragment() {
             "mustang" to "Pixel 10 Pro XL",
             "rango" to "Pixel 10 Pro Fold",
             "stallion" to "Pixel 10a",
+            "cubs" to "Pixel 11",
+            "grizzly" to "Pixel 11 Pro",
+            "kodiak" to "Pixel 11 Pro XL",
+            "yogi" to "Pixel 11 Pro Fold",
         )
 
         /**
@@ -405,33 +409,66 @@ class PlayIntegrityFix : SettingsPreferenceFragment() {
          */
         private fun fetchAvailableDevices(): List<PifDevice> {
             val versionsHtml = URL("$GOOGLE_URL/about/versions").readText(StandardCharsets.UTF_8)
-            val knownVersions = Regex("""https://developer\.android\.com/about/versions/(\d+)""")
+            // The newest version is often only linked relatively.
+            val knownVersions = Regex("""(?:https://developer\.android\.com)?/about/versions/(\d+)""")
                 .findAll(versionsHtml).map { it.groupValues[1].toInt() }.toSet().sortedDescending()
 
             val maxVersion = knownVersions.firstOrNull() ?: return emptyList()
             val versions = listOf(maxVersion + 1) + knownVersions
 
             for (version in versions) {
-                try {
-                    val downloadUrl = "$GOOGLE_URL/about/versions/$version/download-ota"
-                    val otaHtml = URL(downloadUrl).readText(StandardCharsets.UTF_8)
-                    val otaList = Regex("""href="(https://dl\.google\.com/[^"]*ota/([^/"]+_beta)[^"]*?)"""")
-                        .findAll(otaHtml).map { it.groupValues[1] to it.groupValues[2] }.toList()
-                    if (otaList.isEmpty()) continue
-
-                    val devices = mutableListOf<PifDevice>()
-                    val seen = mutableSetOf<String>()
-                    for ((otaUrl, product) in otaList) {
-                        val device = product.replace("_beta", "")
-                        if (device in seen) continue
-                        seen.add(device)
-                        val model = DEVICE_MODEL_MAP[device] ?: device
-                        devices.add(PifDevice(product, device, model, otaUrl))
-                    }
-                    if (devices.isNotEmpty()) return devices
-                } catch (_: Exception) { continue }
+                for (path in otaPagesForVersion(version)) {
+                    try {
+                        val otaHtml = URL("$GOOGLE_URL$path").readText(StandardCharsets.UTF_8)
+                        val devices = parseOtaPage(otaHtml)
+                        if (devices.isNotEmpty()) return devices
+                    } catch (_: Exception) { continue }
+                }
             }
             return emptyList()
+        }
+
+        /**
+         * Beta OTA pages for a version: QPR betas newest first, then the base release.
+         * The base release beta goes stale once a QPR beta is out.
+         */
+        private fun otaPagesForVersion(version: Int): List<String> {
+            val qprPages = try {
+                val versionHtml = URL("$GOOGLE_URL/about/versions/$version")
+                    .readText(StandardCharsets.UTF_8)
+                Regex("""href="(/about/versions/$version/qpr(\d+)/download-ota)"""")
+                    .findAll(versionHtml)
+                    .map { it.groupValues[2].toInt() to it.groupValues[1] }
+                    .distinct()
+                    .sortedByDescending { it.first }
+                    .map { it.second }
+                    .toList()
+            } catch (_: Exception) {
+                emptyList()
+            }
+            return qprPages + "/about/versions/$version/download-ota"
+        }
+
+        private fun parseOtaPage(otaHtml: String): List<PifDevice> {
+            val modelNames = Regex(
+                """<tr id="([^"]+)">\s*<td[^>]*>([^<]+)</td>""",
+                RegexOption.DOT_MATCHES_ALL
+            ).findAll(otaHtml).associate { it.groupValues[1] to it.groupValues[2].trim() }
+
+            val otaList = Regex("""href="(https://dl\.google\.com/[^"]*ota/([^/"]+_beta)[^"]*?)"""")
+                .findAll(otaHtml).map { it.groupValues[1] to it.groupValues[2] }.toList()
+
+            val devices = mutableListOf<PifDevice>()
+            val seen = mutableSetOf<String>()
+            for ((otaUrl, product) in otaList) {
+                val device = product.replace("_beta", "")
+                if (device in seen) continue
+                seen.add(device)
+                val model = modelNames[device]?.takeIf { it.isNotEmpty() }
+                    ?: DEVICE_MODEL_MAP[device] ?: device
+                devices.add(PifDevice(product, device, model, otaUrl))
+            }
+            return devices
         }
 
         /**
