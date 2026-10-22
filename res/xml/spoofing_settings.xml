@@ -14,19 +14,23 @@
         android:key="system_spoof_category"
         android:title="@string/system_spoof_category_title">
 
-        <!-- Play Integrity Fix -->
         <Preference
             android:key="play_integrity_fix"
             android:title="@string/play_integrity_fix_title"
             android:summary="@string/play_integrity_fix_summary"
             android:fragment="com.android.settings.custom.spoofing.PlayIntegrityFix" />
 
-        <!-- TEE Simulator -->
         <Preference
-            android:key="tee_simulator"
-            android:title="@string/tee_simulator_title"
-            android:summary="@string/tee_simulator_summary"
-            android:fragment="com.android.settings.custom.spoofing.TeeSimulatorSettings" />    
+            android:key="tricky_store"
+            android:title="@string/tricky_store_title"
+            android:summary="@string/tricky_store_summary"
+            android:fragment="com.android.settings.custom.spoofing.TrickyStore" />
+
+        <Preference
+            android:key="game_spoofing"
+            android:title="@string/game_spoofing_title"
+            android:summary="@string/game_spoofing_summary"
+            android:fragment="com.android.settings.custom.spoofing.GameSpoofing" />
     </PreferenceCategory>
 
     <!-- Hardware & App Spoofing Category -->
@@ -47,24 +51,6 @@
             android:title="@string/user_selectable_app_spoofing_title"
             android:summary="@string/user_selectable_app_spoofing_summary"
             android:fragment="com.android.settings.system.spoofing.UserSelectedAppSpoofSettings" />
-    </PreferenceCategory>
-
-    <!-- Google & Media Features Category -->
-    <PreferenceCategory
-        android:key="google_media_category"
-        android:title="@string/google_media_spoof_category_title">
-
-        <SwitchPreferenceCompat
-            android:key="gphotos_spoof"
-            android:title="@string/gphotos_spoof_title"
-            android:summary="@string/gphotos_spoof_summary"
-            android:defaultValue="true" />
-
-        <SwitchPreferenceCompat
-            android:key="pi_tensor_spoof"
-            android:title="@string/pi_tensor_spoof_title"
-            android:summary="@string/pi_tensor_spoof_summary"
-            android:defaultValue="false" />
     </PreferenceCategory>
 
     <!-- System & Privacy Utilities Category -->

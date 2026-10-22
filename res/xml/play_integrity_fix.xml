@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     SPDX-FileCopyrightText: 2026 Neoteric OS
-     SPDX-License-Identifier: Apache-2.0
+     Copyright (C) 2026 crDroid Android Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:settings="http://schemas.android.com/apk/res-auto"
-    android:key="play_integrity_fix_screen"
     android:title="@string/play_integrity_fix_title">
 
-    <!-- Master Switch -->
-    <SwitchPreferenceCompat
-        android:key="persist.sys.pihooks.disable.gms_props"
-        android:title="@string/pif_master_switch_title"
-        android:summary="@string/pif_master_switch_summary"
-        android:defaultValue="false" />
-
-    <!-- PIF Data Category -->
     <PreferenceCategory
-        android:key="pif_data_category"
-        android:title="@string/pif_category_title">
-
-        <com.android.settings.custom.spoofing.PifDataPreference
-            android:key="pif_data_setting"
-            android:title="@string/pif_data_title" />
-    </PreferenceCategory>
-
-    <!-- PIF Updates Category -->
-    <PreferenceCategory
-        android:key="pif_updates_category"
-        android:title="@string/pif_update_category_title">
-
-        <SwitchPreferenceCompat
-            android:key="auto_update_pif"
-            android:title="@string/auto_update_pif_title"
-            android:summary="@string/auto_update_pif_summary"
-            android:defaultValue="false" />
+        android:key="pif_status_category"
+        android:title="@string/pif_status">
 
         <Preference
-            android:key="pif_update"
-            android:title="@string/pif_update_title"
-            android:summary="@string/pif_update_summary" />
+            android:key="pif_active_config"
+            android:title="@string/pif_active_config"
+            android:summary="@string/pif_no_config"
+            android:selectable="false" />
 
         <Preference
-            android:key="pif_update_random"
-            android:title="@string/pif_update_random_title"
-            android:summary="@string/pif_update_random_summary" />
+            android:key="pif_fetch_beta"
+            android:title="@string/pif_fetch_pixel_beta"
+            android:summary="@string/pif_fetch_pixel_beta_summary" />
+
+        <Preference
+            android:key="pif_import_config"
+            android:title="@string/pif_import_config"
+            android:summary="@string/pif_import_config_summary" />
+
+        <Preference
+            android:key="pif_delete_config"
+            android:title="@string/pif_delete_config"
+            android:summary="@string/pif_delete_config_summary" />
     </PreferenceCategory>
 
-    <!-- Current Spoofed Model Category -->
     <PreferenceCategory
-        android:key="pif_props_category"
-        android:title="@string/pif_props_category_title">
+        android:key="pif_settings_category"
+        android:title="@string/pif_settings">
 
-        <Preference
-            android:key="pif_props"
-            android:title="@string/pif_props_title"
-            android:summary="@string/pif_props_summary" />
+        <com.android.settings.custom.preference.SecureSettingSwitchPreference
+            android:key="spoof_pif_photos"
+            android:title="@string/pif_spoof_photos"
+            android:summary="@string/pif_spoof_photos_summary"
+            android:defaultValue="true" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pif_footer_category"
+        android:title="@string/pif_footer_title">
+
+        <com.android.settingslib.widget.FooterPreference
+            android:key="pif_footer"
+            android:title="@string/pif_footer_body"
+            android:selectable="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pif_config_details_category"
+        android:title="@string/pif_config_details" />
 
 </PreferenceScreen>

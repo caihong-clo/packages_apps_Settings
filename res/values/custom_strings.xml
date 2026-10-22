@@ -330,23 +330,6 @@
     <string name="doze_enabled_summary">Whether to enable the doze package functionality</string>
 
     <!-- Obscura -->
-    <string name="obscura_title">Obscura</string>
-    <string name="obscura_summary">App hiding, sandboxing and settings spoofing</string>
-    <string name="obscura_apps_title">App Control</string>
-    <string name="obscura_manage_apps_title">Manage apps</string>
-    <string name="obscura_manage_apps_summary">Configure hiding, sandbox and spoof settings per app</string>
-    <string name="obscura_backup_menu_import">Import settings</string>
-    <string name="obscura_backup_menu_export">Export settings</string>
-    <string name="obscura_backup_export_success">Settings exported successfully</string>
-    <string name="obscura_backup_export_failed">Failed to export settings</string>
-    <string name="obscura_backup_import_success">Settings imported successfully</string>
-    <string name="obscura_backup_import_failed">Invalid backup file</string>
-    <string name="obscura_reboot_dialog_title">Restart System</string>
-    <string name="obscura_reboot_dialog_message">Disabling visibility or Play Store restrictions requires a system restart for changes to fully take effect across all launchers, Play Store, and system services.\n\nWould you like to restart now?</string>
-    <string name="obscura_reboot_dialog_button_now">Restart Now</string>
-    <string name="obscura_reboot_dialog_button_later">Restart Later</string>
-    <string name="obscura_detach_playstore_title">Detach from Play Store</string>
-    <string name="obscura_detach_playstore_summary">Hide app from Google Play Store to prevent automatic updates</string>
 
     <!-- Enforce DNS for VPN -->
     <string name="vpn_enforce_dns_title">Disable for VPN</string>
