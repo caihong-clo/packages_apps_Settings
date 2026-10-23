@@ -6082,6 +6082,22 @@ SPDX-License-Identifier: BSD-3-Clause-Clear -->
         </activity>
 
         <activity
+            android:name="Settings$TaskbarSettingsActivity"
+            android:label="@string/taskbar_settings_title"
+            android:exported="true">
+            <intent-filter android:priority="1">
+                <action android:name="android.settings.TASKBAR_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
+                android:value="com.android.settings.custom.taskbar.TaskbarSettings"/>
+            <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
+                android:value="@string/menu_key_system"/>
+            <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
+                android:value="true" />
+        </activity>
+
+        <activity
             android:name=".gestures.quicklaunch.EditQuickLaunchActivity"
             android:label="@string/fingerprint_ql_setting_edit_title"
             android:exported="true"

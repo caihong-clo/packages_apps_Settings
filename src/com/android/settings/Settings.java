@@ -890,4 +890,7 @@ public class Settings extends SettingsActivity {
 
     // QuickLaunch
     public static class QuickLaunchSettingsActivity extends SettingsActivity {}
+
+    // Taskbar
+    public static class TaskbarSettingsActivity extends SettingsActivity {}
 }

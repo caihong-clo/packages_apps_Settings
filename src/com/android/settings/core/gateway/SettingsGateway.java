@@ -138,6 +138,7 @@ import com.android.settings.gestures.PowerMenuSettings;
 import com.android.settings.gestures.SwipeToNotificationSettings;
 import com.android.settings.gestures.SystemNavigationGestureSettings;
 import com.android.settings.gestures.quicklaunch.QuickLaunchSettings;
+import com.android.settings.custom.taskbar.TaskbarSettings;
 import com.android.settings.input.gamecontroller.GameControllerFragment;
 import com.android.settings.input.gamecontroller.GameControllerListFragment;
 import com.android.settings.inputmethod.AvailableVirtualKeyboardFragment;
@@ -337,6 +338,7 @@ public class SettingsGateway {
             SystemNavigationGestureSettings.class.getName(),
             GestureTweaksSettings.class.getName(),
             QuickLaunchSettings.class.getName(),
+            TaskbarSettings.class.getName(),
             ShadePanelsFragment.class.getName(),
             DataUsageSummary.class.getName(),
             DreamSettings.class.getName(),
