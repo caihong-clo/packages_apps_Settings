@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The PenguinOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res-auto"
+    android:title="@string/taskbar_settings_title">
+
+    <PreferenceCategory
+        android:key="taskbar_behaviour_category"
+        android:title="@string/taskbar_behaviour_category">
+
+        <com.android.settings.custom.preference.SecureSettingSeekBarPreference
+            android:key="penguin_taskbar_hover_delay"
+            android:title="@string/taskbar_hover_delay_title"
+            android:summary="@string/taskbar_hover_delay_summary"
+            android:defaultValue="150"
+            android:max="1000"
+            settings:min="0"
+            settings:interval="25"
+            settings:units="@string/taskbar_unit_ms" />
+
+        <com.android.settings.custom.preference.SecureSettingSeekBarPreference
+            android:key="penguin_taskbar_autohide_timeout"
+            android:title="@string/taskbar_autohide_timeout_title"
+            android:summary="@string/taskbar_autohide_timeout_summary"
+            android:defaultValue="5"
+            android:max="30"
+            settings:min="1"
+            settings:interval="1"
+            settings:units="@string/taskbar_unit_s" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="taskbar_dock_category"
+        android:title="@string/taskbar_dock_category">
+
+        <com.android.settings.custom.preference.SecureSettingSwitchPreference
+            android:key="penguin_taskbar_dock"
+            android:title="@string/taskbar_dock_title"
+            android:summary="@string/taskbar_dock_summary"
+            android:defaultValue="false" />
+
+        <com.android.settings.custom.preference.SecureSettingSwitchPreference
+            android:key="penguin_taskbar_dock_bounce"
+            android:title="@string/taskbar_dock_bounce_title"
+            android:summary="@string/taskbar_dock_bounce_summary"
+            android:defaultValue="true"
+            android:dependency="penguin_taskbar_dock" />
+
+        <com.android.settings.custom.preference.SecureSettingSwitchPreference
+            android:key="penguin_taskbar_dock_glass"
+            android:title="@string/taskbar_dock_glass_title"
+            android:summary="@string/taskbar_dock_glass_summary"
+            android:defaultValue="false"
+            android:dependency="penguin_taskbar_dock" />
+
+        <com.android.settings.custom.preference.SecureSettingSeekBarPreference
+            android:key="penguin_taskbar_dock_blur"
+            android:title="@string/taskbar_dock_blur_title"
+            android:summary="@string/taskbar_dock_blur_summary"
+            android:defaultValue="60"
+            android:max="100"
+            settings:min="0"
+            settings:interval="5"
+            settings:units="%"
+            android:dependency="penguin_taskbar_dock_glass" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

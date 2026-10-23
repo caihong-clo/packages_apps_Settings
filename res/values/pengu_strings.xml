@@ -104,4 +104,24 @@
 
     <string name="penguin_laboratory_title">Penguin Laboratory</string>
     <string name="penguin_laboratory_summary">Styles, experiments, edge lighting and more</string>
+
+    <!-- Taskbar settings (tablets) -->
+    <string name="taskbar_settings_title">Taskbar</string>
+    <string name="taskbar_settings_summary">Reveal timing and desktop dock style</string>
+    <string name="taskbar_behaviour_category">Auto-hide</string>
+    <string name="taskbar_hover_delay_title">Reveal delay on hover</string>
+    <string name="taskbar_hover_delay_summary">How long the pointer rests at the bottom edge before the hidden taskbar appears</string>
+    <string name="taskbar_autohide_timeout_title">Hide after</string>
+    <string name="taskbar_autohide_timeout_summary">How long the taskbar stays up after you stop using it</string>
+    <string name="taskbar_unit_ms">ms</string>
+    <string name="taskbar_unit_s">s</string>
+    <string name="taskbar_dock_category">Desktop mode</string>
+    <string name="taskbar_dock_title">macOS-style dock</string>
+    <string name="taskbar_dock_summary">Show the taskbar as a floating pill as wide as its apps, like the tablet dock. Applies while the taskbar auto-hides</string>
+    <string name="taskbar_dock_bounce_title">Bounce on hover</string>
+    <string name="taskbar_dock_bounce_summary">App icons hop when the pointer moves over them</string>
+    <string name="taskbar_dock_glass_title">Liquid Glass</string>
+    <string name="taskbar_dock_glass_summary">Frosted glass dock with a lit rim</string>
+    <string name="taskbar_dock_blur_title">Blur intensity</string>
+    <string name="taskbar_dock_blur_summary">How much the glass blurs what is behind the dock. The glass edge stays at 0%</string>
 </resources>

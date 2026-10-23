@@ -83,6 +83,15 @@
                 settings:keywords="@string/keywords_system_navigation" />    
 
         <Preference
+            android:key="taskbar_settings"
+            android:title="@string/taskbar_settings_title"
+            android:summary="@string/taskbar_settings_summary"
+            android:icon="@drawable/ic_taskbar"
+            android:order="-250"
+            android:fragment="com.android.settings.custom.taskbar.TaskbarSettings"
+            settings:controller="com.android.settings.custom.taskbar.TaskbarSettingsPreferenceController"/>
+
+        <Preference
             android:key="gesture_settings"
             android:title="@string/gesture_preference_title"
             android:icon="@drawable/ic_settings_gestures"
