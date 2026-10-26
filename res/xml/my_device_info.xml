@@ -88,5 +88,15 @@
             settings:controller="com.android.settings.deviceinfo.BuildNumberPreferenceController"
             app:layout="@layout/pengu_card_mid_abt"/>
 
+        <Preference
+            android:icon="@drawable/maintainer_acc"
+            android:key="maintainer"
+            android:order="9"
+            android:title="@string/maintainer"
+            android:summary="@string/summary_placeholder"
+            settings:enableCopying="true"
+            settings:controller="com.android.settings.deviceinfo.penguin.PenguinMaintainerPreferenceController"
+            app:layout="@layout/pengu_card_mid_abt"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

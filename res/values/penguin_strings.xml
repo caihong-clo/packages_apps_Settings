@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Penguin maintainer -->
     <string name="maintainer">Maintainer</string>
-    <string name="penguin_maintainer" translatable="false">Unofficial Maintainer</string>
+    <string name="maintainer_official">Official maintainer</string>
+    <string name="maintainer_unofficial"><xliff:g id="maintainer" example="Saikiran">%1$s</xliff:g> (unofficial build)</string>
+    <string name="maintainer_unofficial_build">Unofficial build</string>
+    <string name="maintainer_unknown">Unknown</string>
+    <string name="penguin_maintainer" translatable="false"></string>
 </resources>
